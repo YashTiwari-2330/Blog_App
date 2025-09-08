@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+   <h1>Welcome to the Blog App</h1>
+   <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <button type="submit">Submit</button>
+   </form>
+   <p>This is the home page of the blog application.</p>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h1 style = "text-align: center;">Blog post</h1>
+
+<a class = "btn btn-primary" href="{% url 'post_create' %}">Create New Post</a><br><br>
+<div class="container row gap-3">
+
+    {% for post in posts %}
+
+    <div class="card" style="width: 18rem;">
+  {% if post.image %}
+        <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+    {% else %}
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="No Image">
+    
+    {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ post.title }}</h5>
+
+   <!-- Shortened text -->
+            <p class="card-text" id="short-{{ post.id }}">
+                {{ post.content|truncatewords:30 }}
+                {% if post.content|length > 30 %}
+                    <a href="javascript:void(0);" onclick="toggleContent({{ post.id }})" id="readMore-{{ post.id }}">Read More</a>
+                {% endif %}
+            </p>
+    <!-- Full text, initially hidden -->
+            <p class="card-text d-none" id="full-{{ post.id }}">
+                {{ post.content }}
+                <a href="javascript:void(0);" onclick="toggleContent({{ post.id }})" id="readLess-{{ post.id }}">Read Less</a>
+            </p>
+    {% if post.author == user %}
+     <a href="{% url 'post_edit' post.id %}" class="btn btn-primary">Edit</a>
+     <a href="{% url 'post_delete' post.id%}" class="btn btn-danger">Delete</a>
+    {% endif %}
+  </div>
+</div>
+
+    {% endfor %}
+
+</div>
+
+<script>
+function toggleContent(postId) {
+    let shortText = document.getElementById("short-" + postId);
+    let fullText = document.getElementById("full-" + postId);
+
+    if (shortText.classList.contains("d-none")) {
+        shortText.classList.remove("d-none");
+        fullText.classList.add("d-none");
+    } else {
+        shortText.classList.add("d-none");
+        fullText.classList.remove("d-none");
+    }
+}
+</script>
+
+{% endblock %}

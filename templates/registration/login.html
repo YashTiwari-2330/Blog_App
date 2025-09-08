@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="col-md-8 col-lg-6">  <!-- wider card -->
+        <div class="card shadow-lg p-5 rounded-4" style="min-height: 500px;"> <!-- taller card -->
+            <h2 class="text-center text-primary mb-4">Login</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="mb-4">
+                    <label for="id_username" class="form-label fw-bold">Username:</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_password" class="form-label fw-bold">Password:</label>
+                    {{ form.password }}
+                </div>
+
+                 {% comment %} <div class="mb-4">
+                    <label for="id_password" class="form-label fw-bold">Password2:</label>
+                    {{ form.password2 }}
+                </div> {% endcomment %}
+
+                <button type="submit" class="btn btn-primary w-100 py-3 fs-8">Login</button>
+            </form>
+
+            <p class="mt-4 text-center fs-6">
+                Don’t have an account? 
+                <a href="{% url 'register' %}" class="text-decoration-none">Register</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
