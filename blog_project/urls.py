@@ -31,7 +31,7 @@ urlpatterns = [
     path('posts/drafts/', views.post_draft_list, name='post_draft_list'),
     path('posts/<int:id>/publish/', views.post_publish, name='post_publish'),
     path('register/', views.register, name='register'),  # type: ignore
-
+    path("search/", views.search_post, name="search_post"),
     path('admin/', admin.site.urls),
 ]
 

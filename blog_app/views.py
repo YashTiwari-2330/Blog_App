@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .models import Post
 from .forms import PostForm , UserRegistrationForm , User
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect , HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.db.models import Q
 
 # Create your views here.
 
@@ -82,3 +83,9 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request , "registration/register.html" , {'form':form})
+
+@login_required
+def search_post(request):
+    query = request.GET.get("query") # search input from navbar
+    posts = Post.objects.filter(title__icontains=query)  # only published posts
+    return render(request , "search_post.html" , {"posts":posts , "query" : query})
